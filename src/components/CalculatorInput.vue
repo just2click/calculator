@@ -1,15 +1,17 @@
 <template>
-    <input type="text" :value="value">
+    <input type="text" :value="digits">
 </template>
 
 <script>
+    import * as types from './../store/types.js';
+    import { mapGetters } from 'vuex';
+
     export default {
-        props: [
-            'value'
-        ]
+        computed: {
+            ...mapGetters({
+                'digits': [types.GET_DISPLAY]
+            })
+        }
     }
 </script>
 
-<style lang="stylus" scoped>
-
-</style>
