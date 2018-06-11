@@ -7,7 +7,7 @@ const state = {
     digits: '0',
     operation: '',
     isInProcess: false,
-    actionStarted: false
+    actionStarted: null
 }
 
 const getters = {
@@ -35,6 +35,9 @@ const mutations = {
         state.value = parseInt(state.digits);
     },
     setOperation: (state, payload) => {
+        if (state.actionStarted !== null) {
+            state = calculate(state);
+        }
         state.actionStarted = true;
         state.operation = payload;
         state.operand = state.value;
@@ -44,18 +47,13 @@ const mutations = {
             case 'c':
                 state.value = 0;
                 state.operand = 0;
-                state.operation = '';
                 state.digits = '0';
+                state.operation = '';
+                state.isInProcess = false;
+                state.actionStarted = null;
                 break;
             case '=':
-                state.value = calculate(state);
-                if (state.value) {
-                    state.digits = state.value.toString();
-                    state.operand = state.value;
-                } else {
-                    state.digits = 'Error';
-                    state.operand = 0;
-                }
+                state = calculate(state);
                 break;
         }
     }
