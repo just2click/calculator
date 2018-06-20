@@ -1,5 +1,5 @@
 <template>
-    <input type="text" :value="digits">
+    <input type="text" v-model="digits">
 </template>
 
 <script>
@@ -7,6 +7,18 @@
     import { mapGetters } from 'vuex';
 
     export default {
+        data () {
+            return {
+                numericValue: ''
+            }
+        },
+        watch: {
+            value: (val) => {
+                if (val.length === 0) {
+                    this.numericValue = '0';
+                }
+            }
+        },
         computed: {
             ...mapGetters({
                 'digits': [types.GET_DISPLAY]

@@ -1,5 +1,5 @@
 import * as types from '../types';
-import { clearDisplay, calculate } from '../../utilities/common.js';
+import { clearDisplay, calculate, reset } from '../../utilities/common.js';
 
 const state = {
     value: 0,
@@ -43,17 +43,18 @@ const mutations = {
         state.operand = state.value;
     },
     execute: (state, payload) => {
+        debugger;
         switch (payload.toLowerCase()) {
             case 'c':
-                state.value = 0;
-                state.operand = 0;
-                state.digits = '0';
-                state.operation = '';
-                state.isInProcess = false;
-                state.actionStarted = null;
+                state = reset();
                 break;
             case '=':
                 state = calculate(state);
+                break;
+            case 'del':
+                if (state.digits === '') {
+                    state = reset();
+                }
                 break;
         }
     }
